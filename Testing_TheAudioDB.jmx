@@ -123,6 +123,15 @@
             <intProp name="Assertion.test_type">16</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion">
+            <stringProp name="JSON_PATH">$.artists</stringProp>
+            <stringProp name="EXPECTED_VALUE"></stringProp>
+            <boolProp name="JSONVALIDATION">false</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">true</boolProp>
+          </JSONPathAssertion>
+          <hashTree/>
         </hashTree>
       </hashTree>
     </hashTree>
