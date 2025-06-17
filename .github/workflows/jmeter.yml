@@ -1,0 +1,13 @@
+name: Run JMeter
+on:  
+ push:  
+   branches: [ "dev" ]  
+ pull_request:  
+   branches: [ "dev" ]
+ workflow_dispatch:
+jobs:
+  set-up-jmeter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Up JMeter
+        uses: tush-tr/setup-jmeter@v1.1.0
