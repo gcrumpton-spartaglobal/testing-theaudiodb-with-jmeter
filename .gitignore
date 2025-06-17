@@ -1,0 +1,3 @@
+# Ignore all files in the reports dir, except for the .gitkeep
+/reports/*
+!/reports/.gitkeep
