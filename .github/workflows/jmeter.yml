@@ -8,6 +8,34 @@ on:
 jobs:
   set-up-jmeter:
     runs-on: ubuntu-latest
+    env:
+      JMETER_VERSION: 5.6.3
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Set Up JMeter
-        uses: tush-tr/setup-jmeter@v1.1.0
+        run: |
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
+          tar -xzf apache-jmeter-${JMETER_VERSION}.tgz
+      - name: Verify JMeter installation
+        run: |
+          cd apache-jmeter-${JMETER_VERSION}
+          ./bin/jmeter -v
+  run-jmeter:
+    runs-on: ubuntu-latest
+    needs: set-up-jmeter
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: JMeter Test
+        uses: QAInsights/PerfAction@v5.6.2
+        with:
+          test-plan-path: ./tests/Testing_TheAudioDB.jmx
+          args: ""
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-results
+          path: result.jtl
+          if-no-files-found: error
+    
