@@ -55,4 +55,9 @@ jobs:
         - name: Copy Results to Host
           run: |
             mkdir -p $HOME/results_from_docker
-            docker cp run-jmeter-docker:/tests/results.jtl $HOME/results_from_docker
+            docker cp run-jmeter-docker:/tests/results.jtl $HOME/results_from_docker/results.jtl
+        - name: Upload Results
+          uses: actions/upload-artifact@v4
+          with:
+            name: jmeter-results-docker
+            path: $HOME/results_from_docker/results.jtl
