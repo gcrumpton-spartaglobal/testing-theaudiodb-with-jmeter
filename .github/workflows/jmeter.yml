@@ -38,4 +38,14 @@ jobs:
           name: jmeter-results
           path: result.jtl
           if-no-files-found: error
-    
+  run-jmeter-docker:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
+        - name: Build Docker Container
+          run:
+            docker build -t testing-theaudiodb-with-jmeter .
+        - name: Run Docker Container
+          run:
+            docker run --rm -v /tests:/tests/results testing-theaudiodb-with-jmeter
