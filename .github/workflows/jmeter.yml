@@ -53,8 +53,7 @@ jobs:
           run:
             docker run -t -v jmeter-results-volume:/tests/ --name run-jmeter-docker testing-theaudiodb-with-jmeter
         - name: Copy Results to Host
-          run: |
-            mkdir -p $HOME/results_from_docker
+          run:
             docker cp run-jmeter-docker:/tests/results.jtl reports/results.jtl
         - name: Debugging
           run: |
