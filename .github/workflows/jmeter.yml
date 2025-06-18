@@ -43,9 +43,12 @@ jobs:
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v3
+        - name: Create Volume
+          run:
+            docker volume create jmeter-results-volume
         - name: Build Docker Container
           run:
             docker build -t testing-theaudiodb-with-jmeter .
         - name: Run Docker Container
           run:
-            docker run --rm -v /tests:/tests/results testing-theaudiodb-with-jmeter
+            docker run --rm -v jmeter-results-volume:/tests/ testing-theaudiodb-with-jmeter
