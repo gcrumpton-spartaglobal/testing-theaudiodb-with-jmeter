@@ -55,9 +55,15 @@ jobs:
         - name: Copy Results to Host
           run: |
             mkdir -p $HOME/results_from_docker
-            docker cp run-jmeter-docker:/tests/results.jtl $HOME/results_from_docker/results.jtl
+            docker cp run-jmeter-docker:/tests/results.jtl reports/results.jtl
+        - name: Debugging
+          run: |
+            ls $HOME/results_from_docker
+            pwd
+            ls -R
         - name: Upload Results
           uses: actions/upload-artifact@v4
           with:
             name: jmeter-results-docker
-            path: $HOME/results_from_docker/results.jtl
+            path: reports/results.jtl
+            if-no-files-found: error
