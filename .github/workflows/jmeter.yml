@@ -55,11 +55,6 @@ jobs:
         - name: Copy Results to Host
           run:
             docker cp run-jmeter-docker:/tests/results.jtl reports/results.jtl
-        - name: Debugging
-          run: |
-            ls $HOME/results_from_docker
-            pwd
-            ls -R
         - name: Upload Results
           uses: actions/upload-artifact@v4
           with:
