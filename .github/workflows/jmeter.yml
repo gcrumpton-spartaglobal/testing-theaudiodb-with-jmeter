@@ -43,9 +43,21 @@ jobs:
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v3
+        - name: Create Volume
+          run:
+            docker volume create jmeter-results-volume
         - name: Build Docker Container
           run:
             docker build -t testing-theaudiodb-with-jmeter .
         - name: Run Docker Container
           run:
-            docker run --rm -v /tests:/tests/results testing-theaudiodb-with-jmeter
+            docker run -t -v jmeter-results-volume:/tests/ --name run-jmeter-docker testing-theaudiodb-with-jmeter
+        - name: Copy Results to Host
+          run:
+            docker cp run-jmeter-docker:/tests/results.jtl reports/results.jtl
+        - name: Upload Results
+          uses: actions/upload-artifact@v4
+          with:
+            name: jmeter-results-docker
+            path: reports/results.jtl
+            if-no-files-found: error
