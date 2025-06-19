@@ -1,4 +1,5 @@
 ## Docker Setup
+Ensure that the repo is your current working directory, and then:
 1. Create the volume:
    ```
    docker volume create jmeter-results-volume
