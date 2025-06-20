@@ -32,11 +32,12 @@ jobs:
         with:
           test-plan-path: ./tests/Testing_TheAudioDB.jmx
           args: ""
+          results-file: results.jtl
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
           name: jmeter-results
-          path: result.jtl
+          path: results.jtl
           if-no-files-found: error
   run-jmeter-docker:
       runs-on: ubuntu-latest
