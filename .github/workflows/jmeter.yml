@@ -32,6 +32,7 @@ jobs:
         with:
           test-plan-path: ./tests/Testing_TheAudioDB.jmx
           args: ""
+          results-file: results.jtl
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
