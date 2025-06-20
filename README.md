@@ -1,5 +1,9 @@
 # Testing TheAudioDB API With JMeter
-This repo contains a mini-project to test TheAudioDB API (https://www.theaudiodb.com) to practice using JMeter.
+This repo contains a mini-project to test TheAudioDB API (https://www.theaudiodb.com).
+
+## Project Goal
+The aim of this project is to practise using version control and CI/CD for JMeter. The JMeter project itself is quite simple, 
+with the challenge being setting up the CI/CD pipeline.
 
 ## JMeter Setup
 Ensure you have JMeter installed and this repo cloned onto your system, and then:
