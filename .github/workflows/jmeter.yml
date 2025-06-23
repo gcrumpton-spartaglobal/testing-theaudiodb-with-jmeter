@@ -1,0 +1,64 @@
+name: Run JMeter
+on:  
+ push:  
+   branches: [ "dev" ]  
+ pull_request:  
+   branches: [ "dev" ]
+ workflow_dispatch:
+jobs:
+  set-up-jmeter:
+    runs-on: ubuntu-latest
+    env:
+      JMETER_VERSION: 5.6.3
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set Up JMeter
+        run: |
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
+          tar -xzf apache-jmeter-${JMETER_VERSION}.tgz
+      - name: Verify JMeter installation
+        run: |
+          cd apache-jmeter-${JMETER_VERSION}
+          ./bin/jmeter -v
+  run-jmeter:
+    runs-on: ubuntu-latest
+    needs: set-up-jmeter
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: JMeter Test
+        uses: QAInsights/PerfAction@v5.6.2
+        with:
+          test-plan-path: ./tests/Testing_TheAudioDB.jmx
+          args: ""
+          results-file: results.jtl
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-results
+          path: results.jtl
+          if-no-files-found: error
+  run-jmeter-docker:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
+        - name: Create Volume
+          run:
+            docker volume create jmeter-results-volume
+        - name: Build Docker Container
+          run:
+            docker build -t testing-theaudiodb-with-jmeter .
+        - name: Run Docker Container
+          run:
+            docker run -t -v jmeter-results-volume:/tests/ --name run-jmeter-docker testing-theaudiodb-with-jmeter
+        - name: Copy Results to Host
+          run:
+            docker cp run-jmeter-docker:/tests/results.jtl reports/results.jtl
+        - name: Upload Results
+          uses: actions/upload-artifact@v4
+          with:
+            name: jmeter-results-docker
+            path: reports/results.jtl
+            if-no-files-found: error
